@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 600px; margin-top: 5rem;">
+    <h1 class="text-center mb-3">500 - Server Error</h1>
+    <div class="card" style="background: #fff5f5; color: #e53e3e; border: none;">
+        <i class="fas fa-exclamation-triangle"></i> An unexpected error has occurred.
+    </div>
+    <div class="text-center mt-3">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">
+            <i class="fas fa-home"></i> Return Home
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 800px;">
+    <h1 class="text-center mb-3">About QRGen</h1>
+    
+    <div style="line-height: 1.8; color: #4a5568;">
+        <p class="mb-4">QRGen is a cutting-edge QR code generator built by Adit Sharma and A.I team that combines simplicity with powerful features to create professional QR codes instantly.</p>
+        
+        <div class="card" style="background: var(--primary-light); border: none; margin: 2rem 0;">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                <i class="fas fa-star"></i> Key Features
+            </h3>
+            <ul style="margin-left: 1.5rem;">
+                <li class="mb-2">Instant QR code generation from any text input</li>
+                <li class="mb-2">High-resolution PNG downloads</li>
+                <li class="mb-2">Modern, intuitive interface</li>
+                <li class="mb-2">100% free with no watermarks</li>
+                <li>Mobile-optimized design</li>
+            </ul>
+        </div>
+        
+        <h3 style="color: var(--primary); margin: 2rem 0 1rem;">
+            <i class="fas fa-cogs"></i> How It Works
+        </h3>
+        <p class="mb-4">Our advanced algorithm processes your input in real-time to generate pixel-perfect QR codes that work across all devices and scanners.</p>
+        
+        <div class="card" style="background: #f8fafc; border: none; margin: 2rem 0;">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">
+                <i class="fas fa-lightbulb"></i> Pro Tips
+            </h3>
+            <ul style="margin-left: 1.5rem;">
+                <li class="mb-2">Use shorter URLs for denser QR codes</li>
+                <li class="mb-2">Test your QR code with multiple devices</li>
+                <li>Add contrast for better scanning reliability</li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

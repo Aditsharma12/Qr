@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1>Admin Dashboard</h1>
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-primary">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="card mb-3" style="background: {% if category == 'error' %}#fff5f5; color: #e53e3e{% else %}#f0fff4; color: #38a169{% endif %}; border: none;">
+                    <i class="fas {% if category == 'error' %}fa-exclamation-circle{% else %}fa-check-circle{% endif %}"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="card" style="margin-bottom: 2rem;">
+        <h2>Recent Contacts</h2>
+        {% if not contacts %}
+            <div class="card" style="background: #fffaf0; color: #dd6b20; border: none;">
+                <i class="fas fa-info-circle"></i> No contacts found in the database
+            </div>
+        {% else %}
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: var(--primary-light);">
+                            <th style="padding: 1rem; text-align: left;">Name</th>
+                            <th style="padding: 1rem; text-align: left;">Email</th>
+                            <th style="padding: 1rem; text-align: left;">Message</th>
+                            <th style="padding: 1rem; text-align: left;">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 1rem;">{{ contact.name }}</td>
+                            <td style="padding: 1rem;">{{ contact.email }}</td>
+                            <td style="padding: 1rem;">{{ contact.message[:50] }}{% if contact.message|length > 50 %}...{% endif %}</td>
+                            <td style="padding: 1rem;">{{ contact.created_at }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="card">
+        <h2>System Stats</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">{{ contacts_count }}</h3>
+                <p style="color: var(--gray);">Total Contacts</p>
+            </div>
+            <div class="card" style="text-align: center; padding: 1.5rem;">
+                <h3 style="color: var(--primary); margin-bottom: 0.5rem;">{{ recent_contacts_count }}</h3>
+                <p style="color: var(--gray);">Recent (7 days)</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

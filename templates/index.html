@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 600px;">
+    <h1 class="text-center mb-3">QR Code Generator</h1>
+    
+    <div class="form-group mb-3">
+        <input type="text" id="qr-text" class="form-control" placeholder="Enter text, URL, or contact info...">
+    </div>
+    
+    <button id="generate-qr" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-bolt"></i> Generate QR Code
+    </button>
+    
+    <div id="qr-result" style="display: none; margin-top: 2.5rem;">
+        <div class="text-center">
+            <div style="padding: 1.5rem; background: white; border-radius: 16px; display: inline-block; border: 1px solid rgba(0, 0, 0, 0.05);">
+                <img id="qr-code-img" style="max-width: 220px; height: auto; border-radius: 8px;">
+            </div>
+        </div>
+        <div class="text-center mt-3">
+            <a id="download-qr" class="btn btn-primary">
+                <i class="fas fa-download"></i> Download QR Code
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const generateBtn = document.getElementById('generate-qr');
+        const qrResult = document.getElementById('qr-result');
+        
+        generateBtn.addEventListener('click', async function() {
+            const text = document.getElementById('qr-text').value.trim();
+            if (!text) {
+                alert('Please enter some text or URL');
+                return;
+            }
+            
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            generateBtn.disabled = true;
+            
+            try {
+                const response = await fetch('/generate-qr', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `text=${encodeURIComponent(text)}`
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                
+                document.getElementById('qr-code-img').src = `data:image/png;base64,${data.qr_code}`;
+                document.getElementById('download-qr').href = `/download-qr?text=${encodeURIComponent(text)}`;
+                qrResult.style.display = 'block';
+                
+                // Add slight animation
+                qrResult.style.opacity = '0';
+                qrResult.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => {
+                    qrResult.style.opacity = '1';
+                }, 10);
+                
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to generate QR code');
+            } finally {
+                generateBtn.innerHTML = '<i class="fas fa-bolt"></i> Generate QR Code';
+                generateBtn.disabled = false;
+            }
+        });
+    });
+</script>
+{% endblock %}
